@@ -1,0 +1,22 @@
+{
+	"name": "yellow-change-lib",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"start": "tsx ./src/index.ts",
+		"dev": "tsx watch ./src/index.ts",
+		"format": "prettier --write"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^22.5.1",
+		"prettier": "^3.3.3",
+		"ts-node": "^10.9.2",
+		"tsx": "^4.19.0",
+		"typescript": "^5.5.4"
+	}
+}
