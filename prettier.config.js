@@ -10,7 +10,7 @@ const config = {
 	jsxSingleQuote: false,
 	bracketSpacing: true,
 	useTabs: true,
-	printWidth: 80,
+	printWidth: 120,
 	endOfLine: 'lf',
 }
 
