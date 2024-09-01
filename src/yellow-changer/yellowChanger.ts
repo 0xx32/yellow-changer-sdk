@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from 'axios'
 import crypto from 'crypto'
 
 import type { CreateTradeParams, FetchRequestConfig } from '../@types/yellowChanger'
+import { errorHandler } from '@/utils'
 
 class YellowChanger {
 	private readonly public_api_key: string
@@ -24,42 +25,40 @@ class YellowChanger {
 	}
 
 	private createHmacSHA256(message: string) {
-		console.log('message', message)
-
 		return crypto.createHmac('sha256', this.secret_api_key).update(message).digest('hex')
 	}
 
-	private _fetch<ResponseData>({ params: { method = 'GET', path, body = {} }, config }: FetchRequestConfig) {
+	sendRequest<ResponseData>({ params: { method = 'GET', path, body = {} }, config }: FetchRequestConfig) {
 		const headers: { [key: string]: string } = { ...this.base_headers }
 
-		try {
-			if (method === 'GET') {
-				const signature = this.createHmacSHA256(JSON.stringify(body))
+		if (method === 'GET') {
+			const signature = this.createHmacSHA256(JSON.stringify(body))
 
-				headers['Signature'] = signature
+			headers['Signature'] = signature
 
-				return this._axios.get<ResponseData>(path, {
+			return this._axios
+				.get<ResponseData>(path, {
 					headers: { ...headers },
 					data: body,
 				})
-			}
+				.catch((error) => errorHandler(error))
+		}
 
-			if (method === 'POST') {
-				if (!body) throw new Error('Body of POST request is empty!')
+		if (method === 'POST') {
+			if (!body) throw new Error('Body of POST request is empty!')
 
-				const signature = this.createHmacSHA256(JSON.stringify(body))
-				headers['Signature'] = signature
+			const signature = this.createHmacSHA256(JSON.stringify(body))
+			headers['Signature'] = signature
 
-				return this._axios.post<ResponseData>(path, body, {
+			return this._axios
+				.post<ResponseData>(path, body, {
 					headers: { ...headers },
 					...config,
 				})
-			}
-
-			throw new Error(`Method ${method} is not supported!`)
-		} catch (error: any) {
-			throw new Error(error)
+				.catch((error) => errorHandler(error))
 		}
+
+		throw new Error(`Method ${method} is not supported!`)
 	}
 
 	/* 
@@ -67,12 +66,14 @@ class YellowChanger {
 	https://docs.yellowchanger.com/methods/allrates
 	*/
 	async getAllRates(): Promise<ExchangeRate[]> {
-		const response = await this._fetch<ExchangeRate[]>({
+		const response = await this.sendRequest<ExchangeRate[]>({
 			params: {
 				method: 'GET',
 				path: 'trades/allRates',
 			},
 		})
+
+		if (response?.status !== 200) throw new Error('Failed to fetch rates!')
 
 		return response.data
 	}
@@ -82,12 +83,14 @@ class YellowChanger {
 	https://docs.yellowchanger.com/methods/destinationslist
 	*/
 	async getDestinationList() {
-		const response = await this._fetch<DestinationsList>({
+		const response = await this.sendRequest<DestinationsList>({
 			params: {
 				method: 'GET',
 				path: 'trades/destinationsList',
 			},
 		})
+
+		if (response?.status !== 200) throw new Error('Failed to fetch destinations!')
 
 		return response.data
 	}
@@ -97,7 +100,7 @@ class YellowChanger {
     https://docs.yellowchanger.com/methods/ratesindirection
 	*/
 	async getRatesInDirection(direction: string) {
-		const response = await this._fetch<RateInDirection>({
+		const response = await this.sendRequest<RateInDirection>({
 			params: {
 				method: 'GET',
 				path: 'trades/ratesInDirection',
@@ -107,6 +110,8 @@ class YellowChanger {
 			},
 		})
 
+		if (response?.status !== 200) throw new Error('Failed to fetch rates!')
+
 		return response.data
 	}
 
@@ -115,7 +120,7 @@ class YellowChanger {
 	https://docs.yellowchanger.com/methods/tradeinfo
 	*/
 	async getTradeInfo(uniq_id: string) {
-		const response = await this._fetch<TradeInfo>({
+		const response = await this.sendRequest<TradeInfo>({
 			params: {
 				method: 'GET',
 				path: 'trades/getInfo',
@@ -125,6 +130,8 @@ class YellowChanger {
 			},
 		})
 
+		if (response?.status !== 200) throw new Error('Failed to fetch trade info!')
+
 		return response.data
 	}
 
@@ -133,7 +140,7 @@ class YellowChanger {
 	https://docs.yellowchanger.com/methods/createtrade
 	*/
 	async createTrade(params: CreateTradeParams) {
-		const response = await this._fetch<TradeInfo>({
+		const response = await this.sendRequest<TradeInfo>({
 			params: {
 				method: 'POST',
 				path: 'trades/createTrade',
@@ -149,6 +156,8 @@ class YellowChanger {
 				},
 			},
 		})
+
+		if (response?.status !== 200) throw new Error('Failed to create trade!')
 
 		return response.data
 	}
