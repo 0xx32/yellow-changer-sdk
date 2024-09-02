@@ -14,31 +14,31 @@ import type {
 import { errorHandler } from './utils'
 
 class YellowChanger {
-	private readonly public_api_key: string
-	private readonly secret_api_key: string
-	private readonly base_headers = {}
-	private readonly base_url: string
+	private readonly publicApiKey: string
+	private readonly secretApiKey: string
+	private readonly baseHeaders = {}
+	private readonly baseUrl: string
 	private readonly _axios: AxiosInstance
 
-	constructor({ base_url, public_api_key, secret_api_key }: YellowChangerProps) {
-		this.base_url = base_url || 'https://api.yellowchanger.com/'
-		this.public_api_key = public_api_key
-		this.secret_api_key = secret_api_key
-		this.base_headers = {
+	constructor({ baseUrl, publicApiKey, secretApiKey }: YellowChangerProps) {
+		this.baseUrl = baseUrl || 'https://api.yellowchanger.com/'
+		this.publicApiKey = publicApiKey
+		this.secretApiKey = secretApiKey
+		this.baseHeaders = {
 			'Content-Type': 'application/json',
-			Y_API_KEY: this.public_api_key,
+			Y_API_KEY: this.publicApiKey,
 		}
 		this._axios = axios.create({
-			baseURL: this.base_url,
+			baseURL: this.baseUrl,
 		})
 	}
 
 	private createHmacSHA256(message: string) {
-		return crypto.createHmac('sha256', this.secret_api_key).update(message).digest('hex')
+		return crypto.createHmac('sha256', this.secretApiKey).update(message).digest('hex')
 	}
 
 	async sendRequest<ResponseData>({ params: { method = 'GET', path, body = {} }, config }: FetchRequestConfig) {
-		const headers: { [key: string]: string } = { ...this.base_headers }
+		const headers: { [key: string]: string } = { ...this.baseHeaders }
 
 		if (method === 'GET') {
 			const signature = this.createHmacSHA256(JSON.stringify(body))

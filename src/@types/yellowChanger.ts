@@ -28,9 +28,9 @@ export interface CreateTradeParams {
 }
 
 export interface YellowChangerProps {
-	public_api_key: string
-	secret_api_key: string
-	base_url?: string
+	publicApiKey: string
+	secretApiKey: string
+	baseUrl?: string
 }
 
 export interface ExchangeRate {
