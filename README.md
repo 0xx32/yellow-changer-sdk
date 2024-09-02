@@ -10,7 +10,7 @@ npm i yellow-changer-sdk
 
 ## Usage
 
-Include nice-select2 script.
+Import the YellowChanger
 
 ```js
 import { YellowChanger } from 'yellow-changer-sdk'
@@ -20,8 +20,8 @@ Initialize the sdk.
 
 ```javascript
 const yellowChanger = new YellowChanger({
-	public_api_key: 'PUBLIC_KEY',
-	secret_api_key: 'PRIVATE_KEY,
+	publicApiKey: 'PUBLIC_KEY',
+	secretApiKey: 'PRIVATE_KEY',
 })
 ```
 
