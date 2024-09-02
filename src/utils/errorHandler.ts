@@ -1,3 +1,4 @@
+import { YellowErrorResponse } from '../@types/yellowChanger'
 import { AxiosError } from 'axios'
 
 export const errorHandler = (error: AxiosError<YellowErrorResponse>) => {

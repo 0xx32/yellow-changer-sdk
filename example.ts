@@ -1,7 +1,7 @@
-import dotenv from 'dotenv'
+// import dotenv from 'dotenv'
 import { YellowChanger } from './src/yellow-changer'
 
-dotenv.config()
+// dotenv.config()
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY!
 const PUBLIC_KEY = process.env.PUBLIC_KEY!

@@ -1,1 +1,1 @@
-export * from './yellow-changer'
+export * from './yellowChanger'

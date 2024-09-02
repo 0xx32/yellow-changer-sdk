@@ -1,8 +1,17 @@
-import axios, { AxiosInstance } from 'axios'
+import axios from 'axios'
+import type { AxiosInstance } from 'axios'
 import crypto from 'crypto'
 
-import type { CreateTradeParams, FetchRequestConfig } from '../@types/yellowChanger'
-import { errorHandler } from '@/utils'
+import type {
+	CreateTradeParams,
+	DestinationsList,
+	ExchangeRate,
+	FetchRequestConfig,
+	RateInDirection,
+	TradeInfo,
+	YellowChangerProps,
+} from './@types/yellowChanger'
+import { errorHandler } from './utils'
 
 class YellowChanger {
 	private readonly public_api_key: string
@@ -28,7 +37,7 @@ class YellowChanger {
 		return crypto.createHmac('sha256', this.secret_api_key).update(message).digest('hex')
 	}
 
-	sendRequest<ResponseData>({ params: { method = 'GET', path, body = {} }, config }: FetchRequestConfig) {
+	async sendRequest<ResponseData>({ params: { method = 'GET', path, body = {} }, config }: FetchRequestConfig) {
 		const headers: { [key: string]: string } = { ...this.base_headers }
 
 		if (method === 'GET') {
@@ -36,12 +45,14 @@ class YellowChanger {
 
 			headers['Signature'] = signature
 
-			return this._axios
+			const response = await this._axios
 				.get<ResponseData>(path, {
 					headers: { ...headers },
 					data: body,
 				})
 				.catch((error) => errorHandler(error))
+
+			return response
 		}
 
 		if (method === 'POST') {
@@ -50,12 +61,14 @@ class YellowChanger {
 			const signature = this.createHmacSHA256(JSON.stringify(body))
 			headers['Signature'] = signature
 
-			return this._axios
+			const response = await this._axios
 				.post<ResponseData>(path, body, {
 					headers: { ...headers },
 					...config,
 				})
 				.catch((error) => errorHandler(error))
+
+			return response
 		}
 
 		throw new Error(`Method ${method} is not supported!`)
