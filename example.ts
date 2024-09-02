@@ -1,10 +1,7 @@
-// import dotenv from 'dotenv'
-import { YellowChanger } from './src/yellow-changer'
+import { YellowChanger } from './src/yellowChanger'
 
-// dotenv.config()
-
-const PRIVATE_KEY = process.env.PRIVATE_KEY!
-const PUBLIC_KEY = process.env.PUBLIC_KEY!
+const PRIVATE_KEY = 'lVUDK_11XKpPbwbIzCDgaN8cnuP5ktAI'
+const PUBLIC_KEY = 'Idwfmg6r8S2Ft_aj_PtAvncSKY9GJkcK'
 
 const yellowChanger = new YellowChanger({
 	public_api_key: PUBLIC_KEY,
