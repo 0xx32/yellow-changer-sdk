@@ -78,7 +78,7 @@ class YellowChanger {
 	Gets all rates
 	https://docs.yellowchanger.com/methods/allrates
 	*/
-	async getAllRates(): Promise<ExchangeRate[]> {
+	async getAllRates(): Promise<ExchangeRate[] | undefined> {
 		const response = await this.sendRequest<ExchangeRate[]>({
 			params: {
 				method: 'GET',
@@ -86,16 +86,14 @@ class YellowChanger {
 			},
 		})
 
-		if (response?.status !== 200) throw new Error('Failed to fetch rates!')
-
-		return response.data
+		if (response?.status === 200) return response.data
 	}
 
 	/* 
 	Gets all destinations list
 	https://docs.yellowchanger.com/methods/destinationslist
 	*/
-	async getDestinationList() {
+	async getDestinationList(): Promise<DestinationsList | undefined> {
 		const response = await this.sendRequest<DestinationsList>({
 			params: {
 				method: 'GET',
@@ -103,16 +101,14 @@ class YellowChanger {
 			},
 		})
 
-		if (response?.status !== 200) throw new Error('Failed to fetch destinations!')
-
-		return response.data
+		if (response?.status === 200) return response.data
 	}
 
 	/*
 	Gets all rates in specific direction
     https://docs.yellowchanger.com/methods/ratesindirection
 	*/
-	async getRatesInDirection(direction: string) {
+	async getRatesInDirection(direction: string): Promise<RateInDirection | undefined> {
 		const response = await this.sendRequest<RateInDirection>({
 			params: {
 				method: 'GET',
@@ -123,16 +119,14 @@ class YellowChanger {
 			},
 		})
 
-		if (response?.status !== 200) throw new Error('Failed to fetch rates!')
-
-		return response.data
+		if (response?.status === 200) return response.data
 	}
 
 	/* 
 	Gets trade info
 	https://docs.yellowchanger.com/methods/tradeinfo
 	*/
-	async getTradeInfo(uniq_id: string) {
+	async getTradeInfo(uniq_id: string): Promise<TradeInfo | undefined> {
 		const response = await this.sendRequest<TradeInfo>({
 			params: {
 				method: 'GET',
@@ -143,16 +137,14 @@ class YellowChanger {
 			},
 		})
 
-		if (response?.status !== 200) throw new Error('Failed to fetch trade info!')
-
-		return response.data
+		if (response?.status === 200) return response.data
 	}
 
 	/*
 	Creates trade
 	https://docs.yellowchanger.com/methods/createtrade
 	*/
-	async createTrade(params: CreateTradeParams) {
+	async createTrade(params: CreateTradeParams): Promise<TradeInfo | undefined> {
 		const response = await this.sendRequest<TradeInfo>({
 			params: {
 				method: 'POST',
@@ -170,9 +162,7 @@ class YellowChanger {
 			},
 		})
 
-		if (response?.status !== 200) throw new Error('Failed to create trade!')
-
-		return response.data
+		if (response?.status === 200) return response.data
 	}
 }
 
