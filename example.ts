@@ -4,8 +4,8 @@ const PRIVATE_KEY = 'lVUDK_11XKpPbwbIzCDgaN8cnuP5ktAI'
 const PUBLIC_KEY = 'Idwfmg6r8S2Ft_aj_PtAvncSKY9GJkcK'
 
 const yellowChanger = new YellowChanger({
-	public_api_key: PUBLIC_KEY,
-	secret_api_key: PRIVATE_KEY,
+	publicApiKey: PUBLIC_KEY,
+	secretApiKey: PRIVATE_KEY,
 })
 
 // console.log(yellowChanger.getAllRates().then((data) => console.log(data)))
@@ -15,11 +15,15 @@ const yellowChanger = new YellowChanger({
 // 	'getTradeInfo',
 // 	yellowChanger.getTradeInfo('0a79b0b697438a064dae83f618b41e6c3a25978f').then((data) => console.log(data))
 // )
-// console.log(yellowChanger.createTrade({
-// 	sendCurrency: 'USDT',
-// 	getCurrency: 'USDT',
-// 	sendValue: 100,
-// 	sendNetwork: 'TRC20',
-// 	getNetwork: 'ERC20',
-// 	credentials: '0x32BA8482FCb155B7F4e05f9f190778A430F7b8f4'
-// }).then((data) => console.log(data)))
+// console.log(
+// 	yellowChanger
+// 		.createTrade({
+// 			sendCurrency: 'USDT',
+// 			getCurrency: 'USDT',
+// 			sendValue: 100,
+// 			sendNetwork: 'TRC20',
+// 			getNetwork: 'ERC20',
+// 			credentials: '0x32BA8482FCb155B7F4e05f9f190778A430F7b8f4',
+// 		})
+// 		.then((data) => console.log(data))
+// )
