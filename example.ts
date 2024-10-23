@@ -1,7 +1,7 @@
 import { YellowChanger } from './src/yellowChanger'
 
-const PRIVATE_KEY = 'lVUDK_11XKpPbwbIzCDgaN8cnuP5ktAI'
-const PUBLIC_KEY = 'Idwfmg6r8S2Ft_aj_PtAvncSKY9GJkcK'
+const PRIVATE_KEY = ''
+const PUBLIC_KEY = ''
 
 const yellowChanger = new YellowChanger({
 	publicApiKey: PUBLIC_KEY,
